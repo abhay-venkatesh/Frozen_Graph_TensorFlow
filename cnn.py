@@ -1,14 +1,11 @@
-import tensorflow as tf
-import os
-
-from tensorflow.python.tools import freeze_graph
-from tensorflow.python.framework import graph_util
-
 from tensorflow.python.saved_model import builder as saved_model_builder
-from tensorflow.python.saved_model import signature_def_utils
 from tensorflow.python.saved_model import signature_constants
+from tensorflow.python.saved_model import signature_def_utils
 from tensorflow.python.saved_model import tag_constants
 from tensorflow.python.saved_model import utils as saved_model_utils
+from tensorflow.python.tools import freeze_graph
+import os
+import tensorflow as tf
 
 
 class CNN(object):
@@ -120,14 +117,14 @@ class CNN(object):
 
     def network_initializer(self):
 
-        with tf.variable_scope("cnn") as scope:
+        with tf.variable_scope("cnn"):
             ouput = self.network(input=self.input, dropout_rate=self.dropout_rate)
 
         return ouput
 
     def loss_initializer(self):
 
-        with tf.variable_scope("loss") as scope:
+        with tf.variable_scope("loss"):
             cross_entropy = tf.nn.softmax_cross_entropy_with_logits_v2(
                 labels=self.label, logits=self.output, name="cross_entropy"
             )
@@ -248,7 +245,8 @@ class CNN(object):
         input_graph_def = graph.as_graph_def()
         output_node_names = ['cnn/output']
 
-        output_graph_def = graph_util.convert_variables_to_constants(self.sess, input_graph_def, output_node_names)
+        output_graph_def = graph_util.convert_variables_to_constants(self.sess,
+         input_graph_def, output_node_names)
 
         with tf.gfile.GFile(pb_filepath, 'wb') as f:
             f.write(output_graph_def.SerializeToString())
