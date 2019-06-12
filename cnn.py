@@ -1,14 +1,12 @@
-import tensorflow as tf
-import os
-
-from tensorflow.python.tools import freeze_graph
 from tensorflow.python.framework import graph_util
-
 from tensorflow.python.saved_model import builder as saved_model_builder
-from tensorflow.python.saved_model import signature_def_utils
 from tensorflow.python.saved_model import signature_constants
+from tensorflow.python.saved_model import signature_def_utils
 from tensorflow.python.saved_model import tag_constants
 from tensorflow.python.saved_model import utils as saved_model_utils
+from tensorflow.python.tools import freeze_graph
+import os
+import tensorflow as tf
 
 
 class CNN(object):
